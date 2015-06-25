@@ -1,0 +1,3 @@
+* -text
+*.hs eof=lf
+*.md eof=lf

@@ -1,0 +1,108 @@
+name: phec
+version: 0.0.0
+cabal-version: >=1.10
+build-type: Simple
+license: LGPL-3
+license-files:
+    COPYING
+    COPYING.LESSER
+    COPYING.Haskeleton.md
+copyright: 2015 Stian Ellingsen <stian@plaimi.net>
+maintainer: Stian Ellingsen <stian@plaimi.net>
+synopsis: Modified Pohlig–Hellman exponentiation cipher
+description:
+    This package provides a variant of the Pohlig–Hellman
+    exponentiation cipher, modified to prevent the ciphertext
+    from leaking one bit of information about the plaintext.
+category: Cryptography
+author: Stian Ellingsen <stian@plaimi.net>
+tested-with: GHC ==7.8
+extra-source-files:
+    README.md
+
+source-repository head
+  type:     git
+  location: https://github.com/stiell/phec.git
+
+library
+    exposed-modules:
+        Crypto.Phec.Primes
+        -- HASKELETON: New.Module
+    build-depends:
+        base ==4.*,
+        arithmoi ==0.4.*
+    default-language: Haskell2010
+    hs-source-dirs: library
+    ghc-prof-options: -auto-all -prof
+    ghc-options: -Wall
+
+test-suite tests
+    type: exitcode-stdio-1.0
+    main-is: Spec.hs
+    build-depends:
+        base ==4.7.*,
+        phec -any,
+        arithmoi ==0.4.*,
+        bytestring ==0.10.*,
+        hspec >=2.0 && <2.2,
+        QuickCheck >=2.7 && <2.9
+    default-language: Haskell2010
+    hs-source-dirs: library test-suite
+    other-modules:
+        Crypto.Phec.Primes
+        -- HASKELETON: New.Module
+        Crypto.Phec.PrimesSpec
+        -- HASKELETON: New.ModuleSpec
+    ghc-options: -fhpc -Wall -Werror -threaded -with-rtsopts=-N
+test-suite examples
+    type: exitcode-stdio-1.0
+    main-is: DocTest.hs
+    build-depends:
+        base ==4.7.*,
+        Glob ==0.7.*,
+        doctest ==0.9.*
+    default-language: Haskell2010
+    hs-source-dirs: test-suite
+    ghc-options: -Wall -Werror
+test-suite coverage
+    type: exitcode-stdio-1.0
+    main-is: HPC.hs
+    build-depends:
+        base ==4.7.*,
+        directory >=1.0 && <1.3,
+        process >=1.0.1 && <1.3,
+        xml ==1.3.*
+    default-language: Haskell2010
+    hs-source-dirs: test-suite
+    ghc-options: -Wall -Werror
+test-suite documentation
+    type: exitcode-stdio-1.0
+    main-is: Haddock.hs
+    build-depends:
+        base ==4.7.*,
+        process >=1.0.1 && <1.3,
+        regex-compat >=0.71 && <0.96
+    default-language: Haskell2010
+    hs-source-dirs: test-suite
+    ghc-options: -Wall -Werror
+test-suite style
+    type: exitcode-stdio-1.0
+    main-is: HLint.hs
+    build-depends:
+        base ==4.7.*,
+        hlint ==1.*
+    default-language: Haskell2010
+    hs-source-dirs: test-suite
+    ghc-options: -Wall -Werror
+
+benchmark benchmarks
+        build-depends:
+    type: exitcode-stdio-1.0
+    main-is: Bench.hs
+    build-depends:
+        base ==4.7.*,
+        phec -any,
+        arithmoi ==0.4.*,
+        criterion ==1.*
+    default-language: Haskell2010
+    hs-source-dirs: benchmark
