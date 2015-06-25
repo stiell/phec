@@ -1,6 +1,6 @@
 name: phec
 version: 0.0.0
-cabal-version: >=1.10
+cabal-version: >=1.20
 build-type: Simple
 license: LGPL-3
 license-files:
