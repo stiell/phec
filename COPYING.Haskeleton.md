@@ -4,7 +4,7 @@ covers the whole collection of files covered by the permission notice. When
 copying only a subset of the files, see the respective files for specific
 copyright notices.
 
-[1] https://github.com/tfausak/haskeleton
+[1]: https://github.com/tfausak/haskeleton
 
 ```
 Copyright (c) 2015 Taylor Fausak <taylor@fausak.me>
