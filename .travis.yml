@@ -7,14 +7,17 @@ env:
   - secure: hZLoJprZHXqpGuyW3Dz8Hh+YpDogv+iOs3PGeMW65TZCLnGADrmmxk2Im1h4MwZBmzXe7JVTXrgNJe3ZEMnGVP3OtDj4Srb16xGlSW/DhT7wLLsE9eXQshfw+4xhPdu2y8ht62+wqzyg4VkrPDooDcGRgekD4JLO4A4/LhJYxAZCizBcv9uQwPxtrMVrxNiPQfsiH5FmWUPM6Z6Xa4URxjGYU82yCOulYxhs+4WL6Apj+/GouWcaUP4C8tw58klTRHCOoa4VABgG5QZhV0BoNscJWMlEJJQTHtjGmMqBwMPEFJ7yCB5CTz/VeDGQaKp0rvQyWE0EwBvJynGg0+/blYgLdVHecv/SKGP5yWD3y066HQfdprMZEfsw+Vx6A0tUl8eyNRANEzZZHMrGmtDDnwFinXcSQG70cDgPEcRbBtbp2nhrqUzQOWEQ1pscSUb7EOcxGAEH+DZjmOYmvq8BLTYHk7axgzxA/xNyhM4l/+z1oSUj/vnXixAqd5rIgXMrgDmrDDBbYit/H7fd5+bsjsd7qNx5ll1n+I1VflZ7Z/pPwruQ/9qOM6L3QyCTTCD72wwn45cxkY7YHgyxsXCuvWbvEB6jAO3vN70owNtysTH0EE1uQILtTrCy1aM1j0/L0ywVRubSPZno6xZr49FbZbWnku3FlJomw1a7RZm76V4=
 
 before_install:
-  - cabal install --constraint=transformers\ installed
+  - cabal install --constraint=transformers\ installed -j3
     happy alex 'cabal-install >=1.20 && <1.21'
   - export PATH=$HOME/.cabal/bin:$PATH
+
+install:
+  - cabal install --only-dependencies --enable-tests -j3
 
 after_script:
   # Ugly hack because codecov-haskell 0.3.0 doesn't support token and 0.4.0 is
   # not yet on Hackage.
-  - "cabal install 'codecov-haskell >=0.3 && <0.4'
+  - "cabal install -j3 'codecov-haskell >=0.3 && <0.4'
     && cabal clean
     && cabal configure --enable-tests --enable-library-coverage
     && (cabal test tests || :)
