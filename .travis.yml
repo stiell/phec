@@ -23,6 +23,7 @@ before_install:
     ~/.cabal/bin/alex -v || p+=(alex)
     ~/.cabal/bin/happy -v || p+=(happy)
     ~/.cabal/bin/codecov-haskell -V || p+=('codecov-haskell >=0.3 && <0.4')
+    ~/.cabal/bin/hlint -V || p+=('hlint >=1 && <2')
     ! ((${#p[@]})) ||
       cabal install --constraint='transformers installed' -j3 "${p[@]}"
   - export PATH=$HOME/.cabal/bin:$PATH
@@ -31,7 +32,7 @@ install:
   - cabal sandbox init
   - |
     if [[ $TESTS == qa ]]; then
-      echo flags: -test-spec -test-coverage
+      echo flags: -test-spec -test-coverage -test-style
     else
       echo flags: -test-coverage -test-examples -test-documentation -test-style
     fi >> cabal.config
@@ -44,6 +45,7 @@ script:
     else
       cabal configure --enable-tests
     fi && cabal build && cabal test
+  - if [[ $TESTS == qa ]]; then hlint benchmark library test-suite; fi
 
 after_script:
   # Ugly hack because codecov-haskell 0.3.0 doesn't support token and 0.4.0 is
