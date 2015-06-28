@@ -35,14 +35,19 @@ install:
     fi >> cabal.config
   - cabal install --only-dependencies --enable-tests -j3
 
+script:
+  - |
+    if [[ $TESTS == spec ]]; then
+      cabal configure --enable-tests --enable-library-coverage
+    else
+      cabal configure --enable-tests
+    fi && cabal build && cabal test
+
 after_script:
   # Ugly hack because codecov-haskell 0.3.0 doesn't support token and 0.4.0 is
   # not yet on Hackage.
   - "if [[ $TESTS == spec ]]; then
-    cabal clean
-    && cabal configure --enable-tests --enable-library-coverage
-    && (cabal test tests || :)
-    && codecov-haskell --display-report --dont-send tests >coverage-file
+    codecov-haskell --display-report --dont-send tests >coverage-file
     && cat coverage-file
     && (curl -d @coverage-file -i -o - -S --retry 3
     \"https://codecov.io/upload/v1?\
