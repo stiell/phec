@@ -12,6 +12,7 @@ before_install:
   - export PATH=$HOME/.cabal/bin:$PATH
 
 install:
+  - "cat >> cabal.config <<<'flags: -test-coverage'"
   - cabal install --only-dependencies --enable-tests -j3
 
 after_script:
