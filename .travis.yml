@@ -24,6 +24,7 @@ before_install:
   - export PATH=$HOME/.cabal/bin:$PATH
 
 install:
+  - cabal sandbox init
   - |
     if [[ $TESTS == qa ]]; then
       echo flags: -test-spec -test-coverage
