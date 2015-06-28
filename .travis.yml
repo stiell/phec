@@ -16,13 +16,15 @@ cache:
     - $HOME/.cabal/share
 
 before_install:
-  - "[[ $(~/.cabal/bin/cabal --numeric-version) =~ ^1\\.20\\. ]]
-     && ~/.cabal/bin/alex -v
-     && ~/.cabal/bin/happy -v
-     && ~/.cabal/bin/codecov-haskell -V
-     || cabal install --constraint='transformers installed' -j3
-        happy alex 'cabal-install >=1.20 && <1.21'
-        'codecov-haskell >=0.3 && <0.4'"
+  - |
+    declare -a p
+    [[ $(~/.cabal/bin/cabal --numeric-version) =~ ^1\.20\. ]] ||
+      p+=('cabal-install >=1.20 && <1.21')
+    ~/.cabal/bin/alex -v || p+=(alex)
+    ~/.cabal/bin/happy -v || p+=(happy)
+    ~/.cabal/bin/codecov-haskell -V || p+=('codecov-haskell >=0.3 && <0.4')
+    ! ((${#p[@]})) ||
+      cabal install --constraint='transformers installed' -j3 "${p[@]}"
   - export PATH=$HOME/.cabal/bin:$PATH
 
 install:
