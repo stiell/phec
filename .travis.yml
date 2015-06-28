@@ -19,8 +19,10 @@ before_install:
   - "[[ $(~/.cabal/bin/cabal --numeric-version) =~ ^1\\.20\\. ]]
      && ~/.cabal/bin/alex -v
      && ~/.cabal/bin/happy -v
+     && ~/.cabal/bin/codecov-haskell -V
      || cabal install --constraint='transformers installed' -j3
-        happy alex 'cabal-install >=1.20 && <1.21'"
+        happy alex 'cabal-install >=1.20 && <1.21'
+        'codecov-haskell >=0.3 && <0.4'"
   - export PATH=$HOME/.cabal/bin:$PATH
 
 install:
@@ -37,8 +39,7 @@ after_script:
   # Ugly hack because codecov-haskell 0.3.0 doesn't support token and 0.4.0 is
   # not yet on Hackage.
   - "if [[ $TESTS == spec ]]; then
-    cabal install -j3 'codecov-haskell >=0.3 && <0.4'
-    && cabal clean
+    cabal clean
     && cabal configure --enable-tests --enable-library-coverage
     && (cabal test tests || :)
     && codecov-haskell --display-report --dont-send tests >coverage-file
