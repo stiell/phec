@@ -28,5 +28,6 @@ after_script:
     travis_job_id=$TRAVIS_JOB_ID&\
     commit=$TRAVIS_COMMIT&\
     branch=$TRAVIS_BRANCH&\
+    pull_request=${TRAVIS_PULL_REQUEST/false/}&\
     token=$CODECOV_TOKEN\";
     echo)"
