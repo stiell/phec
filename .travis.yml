@@ -31,10 +31,11 @@ before_install:
 install:
   - cabal sandbox init
   - |
+    flags="-test-coverage -test-style"
     if [[ $TESTS == qa ]]; then
-      echo flags: -test-spec -test-coverage -test-style
+      echo flags: $flags -test-spec test-examples test-documentation
     else
-      echo flags: -test-coverage -test-examples -test-documentation -test-style
+      echo flags: $flags test-spec -test-examples -test-documentation
     fi >> cabal.config
   - cabal install --only-dependencies --enable-tests -j3
 
