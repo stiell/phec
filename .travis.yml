@@ -46,7 +46,7 @@ script:
     else
       cabal configure --enable-tests
     fi && cabal build && cabal test
-  - if [[ $TESTS == qa ]]; then hlint benchmark library test-suite; fi
+  - if [[ $TESTS == qa ]]; then hlint --cpp-simple benchmark library test-suite; fi
 
 after_script:
   # Ugly hack because codecov-haskell 0.3.0 doesn't support token and 0.4.0 is
