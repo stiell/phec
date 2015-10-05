@@ -1,3 +1,4 @@
+{-# LANGUAGE CPP #-}
 {- |
 Module      :  $Header$
 Description :  Spec for Crypto.Phec.Primes.
@@ -10,7 +11,6 @@ module Crypto.Phec.PrimesSpec (spec) where
 import Control.Arrow ((>>>))
 import Control.Monad (forM_)
 import Crypto.Phec.Primes (isGermainPrime, isGermainPrime', isSafePrime)
-import Data.Functor ((<$>))
 import Data.Monoid ((<>))
 import Math.NumberTheory.Primes.Counting (nthPrime)
 import Math.NumberTheory.Primes.Testing (isPrime)
@@ -19,6 +19,10 @@ import Test.Hspec.QuickCheck (prop)
 import Test.QuickCheck
   ( Gen, (===), (==>), arbitrary, choose, forAll, getNonNegative, getPositive
   , infiniteListOf, oneof, sized )
+
+#if !MIN_VERSION_base(4,8,0)
+import Data.Functor ((<$>))
+#endif
 
 genPositiveLargeInteger :: Gen Integer
 genPositiveLargeInteger = sized $ \n -> do

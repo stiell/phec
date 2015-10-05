@@ -10,7 +10,7 @@ import Language.Haskell.HLint (hlint)
 import System.Exit (exitFailure)
 
 arguments :: [String]
-arguments = ["benchmark", "library", "test-suite"]
+arguments = ["--cpp-simple", "benchmark", "library", "test-suite"]
 
 main :: IO ()
 main = hlint arguments >>= \h -> unless (null h) exitFailure

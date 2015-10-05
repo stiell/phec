@@ -1,3 +1,4 @@
+{-# LANGUAGE CPP #-}
 -- Copyright (c) 2015 Taylor Fausak <taylor@fausak.me>
 -- Copyright (c) 2015 Stian Ellingsen <stian@plaimi.net>
 --
@@ -6,13 +7,16 @@
 module Main (main) where
 
 import Control.Monad (guard)
-import Data.Functor ((<$>))
 import Data.Maybe (fromMaybe)
 import Data.Monoid ((<>))
 import System.Directory (doesFileExist)
 import System.Exit (exitFailure, exitSuccess)
 import System.Process (readProcess)
 import Text.XML.Light
+
+#if !MIN_VERSION_base(4,8,0)
+import Data.Functor ((<$>))
+#endif
 
 ilu :: String -> [Attr] -> Maybe Integer
 ilu k a = read <$> lookupAttr (blank_name {qName = k}) a

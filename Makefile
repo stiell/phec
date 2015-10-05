@@ -25,7 +25,8 @@ haddock:
 	# dist/doc/html/phec/index.html
 
 hpc:
-	hpc markup --destdir=tmp dist/hpc/tix/tests/tests.tix
+	if test -f dist/hpc/tix/tests/tests.tix; then cp dist/hpc/tix/tests/tests.tix ./; fi
+	hpc markup --destdir=tmp tests.tix
 	# tmp/hpc_index.html
 
 install:
